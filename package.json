@@ -1,0 +1,25 @@
+{
+  "name": "comic-reader-app",
+  "version": "1.0.0",
+  "description": "backend capstone",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vmsimone/comic-reader-app.git"
+  },
+  "author": "V",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vmsimone/comic-reader-app/issues"
+  },
+  "homepage": "https://github.com/vmsimone/comic-reader-app#readme",
+  "dependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
+    "express": "^4.16.3",
+    "mocha": "^5.2.0"
+  }
+}
