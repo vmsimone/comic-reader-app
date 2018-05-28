@@ -1,2 +1,8 @@
 language: node_js
 node_js: node
+deploy:
+  provider: heroku
+  api_key: 57b76cb1-8d3a-4f55-994d-2f7766cf46cd
+  app: https://gentle-savannah-49734.herokuapp.com/
+  on:
+    repo: vmsimone/comic-reader-app
