@@ -10,4 +10,21 @@ if (require.main === module) {
   });
 }
 
+const { PORT } = require('./config');
+const { Comic } = require('./models');
+
+app.get('/mylist', (req, res) => {
+  Comic
+    .find()
+    .then(comis => {
+      res.json(
+        comics
+      );
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: 'something went terribly wrong' });
+    });
+});
+
 module.exports = app;
