@@ -13,7 +13,7 @@ const TEST_DATA = {
                 "English": "Future Diary",
                 "Japanese": "未来日記",
                 "Romaji": "Mirai Nikki"
-            }
+            },
             "author": "Sakae Esuno",
             "published": "January 26, 2006",
             "pages": 2500
@@ -23,7 +23,7 @@ const TEST_DATA = {
                 "English": "Naruto",
                 "Japanese": "ナルト",
                 "Romaji": "Naruto"
-            }
+            },
             "author": "Masashi Kishimoto",
             "published": "September 21, 1999",
             "pages": 16072
@@ -46,25 +46,46 @@ const TEST_DATA = {
 }
 
 function displayComic(arr) {
+    $('body').append('<h2>Comics</h2>');
     for (index in arr) {
         $('body').append(
             `
-            <h2>Comics</h2>
-            <h3>${index.title}<h3>
-            <p>by, ${index.author}</p>
-            <p>Published ${index.published}</p>
-            <p>${index.pages} pages</p>
+            <h3>${arr[index].title}</h3>
+            <p>by, ${arr[index].author}</p>
+            <p>Published ${arr[index].published}</p>
+            <p>${arr[index].pages} pages</p>
             `
-        )
+        );
     }
 }
 
 function displayManga(arr) {
-
+    $('body').append('<h2>Manga</h2>');
+    for (index in arr) {
+        $('body').append(
+            `
+            <h3>${arr[index].title.English}</h3>
+            <h4>${arr[index].title.Japanese}</h4>
+            <p>by, ${arr[index].author}</p>
+            <p>Published ${arr[index].published}</p>
+            <p>${arr[index].pages} pages</p>
+            `
+        );
+    }
 }
 
 function displayGNovel(arr) {
-
+    $('body').append('<h2>Graphic Novels</h2>');
+    for (index in arr) {
+        $('body').append(
+            `
+            <h3>${arr[index].title}</h3>
+            <p>by, ${arr[index].author}</p>
+            <p>Published ${arr[index].published}</p>
+            <p>${arr[index].pages} pages</p>
+            `
+        );
+    }
 }
 
 function sortData(data) {
