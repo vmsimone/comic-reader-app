@@ -1,7 +1,7 @@
 const TEST_DATA = {
     "comics": [
         {
-            "title": "Batman: The Killing Joke",
+            "title": {"English": "Batman: The Killing Joke"},
             "author": "Alan Moore",
             "published": "December 1st, 1995",
             "pages": 50
@@ -31,13 +31,13 @@ const TEST_DATA = {
     ],
     "graphicNovels": [
         {
-            "title": "Scott Pilgrim",
+            "title": {"English": "Scott Pilgrim"},
             "author": "Bryan Lee O'Malley",
             "published": "August 18, 2004",
             "pages": 1000
         },
         {
-            "title": "Lost at Sea",
+            "title": {"English": "Lost at Sea"},
             "author": "Bryan Lee O'Malley",
             "published": "November, 2003",
             "pages": 168
@@ -50,7 +50,7 @@ function displayComic(arr) {
     for (index in arr) {
         $('body').append(
             `
-            <h3>${arr[index].title}</h3>
+            <h3>${arr[index].title.English}</h3>
             <p>by, ${arr[index].author}</p>
             <p>Published ${arr[index].published}</p>
             <p>${arr[index].pages} pages</p>
@@ -79,7 +79,7 @@ function displayGNovel(arr) {
     for (index in arr) {
         $('body').append(
             `
-            <h3>${arr[index].title}</h3>
+            <h3>${arr[index].title.English}</h3>
             <p>by, ${arr[index].author}</p>
             <p>Published ${arr[index].published}</p>
             <p>${arr[index].pages} pages</p>
