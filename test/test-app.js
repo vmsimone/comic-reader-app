@@ -1,9 +1,10 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const mongoose = require('mongoose');
 
 const expect = require('chai').expect;
 
-const app = require('../server');
+const {app, runServer, closeServer} = require('../server');
 const Comic = require('../models');
 
 chai.use(chaiHttp);
