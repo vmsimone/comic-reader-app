@@ -9,7 +9,10 @@ const comicSchema = mongoose.Schema({
   },
   "author": {type: String, required: true},
   "published": String,
-  "pages": {type: String, required: true}
+  "pages": {type: String, required: true},
+  "pagesRead": String,
+  "rating": String,
+  "isFavorite": Boolean
 });
 
 comicSchema.virtual('engTitle').get(function() {
@@ -17,13 +20,26 @@ comicSchema.virtual('engTitle').get(function() {
 });
 
 comicSchema.methods.serialize = function() {
-  return {
-    id: this._id,
-    title: engTitle,
-    author: this.author,
-    published: this.published,
-    pages: this.pages
-  };
+  if (this.pagesRead === 0 && this.rating === "None") {
+    return {
+      id: this._id,
+      title: this.engTitle,
+      author: this.author,
+      published: this.published,
+      pages: this.pages
+    };
+  } else {
+    return {
+      id: this._id,
+      title: this.engTitle,
+      author: this.author,
+      published: this.published,
+      pages: this.pages,
+      pagesRead: this.pagesRead,
+      rating: this.rating,
+      isFavorite: this.isFavorite
+    };
+  }
 };
 
 const Comic = mongoose.model('Comic', comicSchema, 'comics');
