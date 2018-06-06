@@ -46,9 +46,9 @@ const TEST_DATA = {
 }
 
 function displayComic(arr) {
-    $('body').append('<h2>Comics</h2>');
+    $('main').append('<h2>Comics</h2>');
     for (index in arr) {
-        $('body').append(
+        $('main').append(
             `
             <h3>${arr[index].title.English}</h3>
             <p>by, ${arr[index].author}</p>
@@ -60,9 +60,9 @@ function displayComic(arr) {
 }
 
 function displayManga(arr) {
-    $('body').append('<h2>Manga</h2>');
+    $('main').append('<h2>Manga</h2>');
     for (index in arr) {
-        $('body').append(
+        $('main').append(
             `
             <h3>${arr[index].title.English}</h3>
             <h4>${arr[index].title.Japanese}</h4>
@@ -75,9 +75,9 @@ function displayManga(arr) {
 }
 
 function displayGNovel(arr) {
-    $('body').append('<h2>Graphic Novels</h2>');
+    $('main').append('<h2>Graphic Novels</h2>');
     for (index in arr) {
-        $('body').append(
+        $('main').append(
             `
             <h3>${arr[index].title.English}</h3>
             <p>by, ${arr[index].author}</p>
@@ -94,6 +94,43 @@ function sortData(data) {
     displayGNovel(data.graphicNovels);
 }
 
-$(function() {
-    sortData(TEST_DATA);
-})
+function addComic() {
+  //POST function
+}
+
+function deleteComic() {
+  //DELETE
+}
+
+function updateComic() {
+  //PUT
+}
+
+function loadPage(page) {
+  const homePage = '<p>Click "My List" to view your comics or "Stats" to see your statistics</p>';
+  const statsPage = '<p>Page Under Construction</p>';
+  const listPage = '<button class="add-comic">Add comic</button>';
+  const comicDetailsPage = '<p>Testing</p>'; //this will need to be a GET with a filter
+
+  switch(page) {
+    case 'home':
+      $('main').html(homePage);
+      break;
+    case 'list':
+      $('main').html(listPage);
+      sortData(TEST_DATA);
+      break;
+    case 'stats':
+      $('main').html(statsPage);
+      break;
+  }
+}
+
+function readyButtons() {
+  $('button').on('click', event => {
+    let navButton = event.target.id;
+    loadPage(navButton);
+  });
+}
+
+$(readyButtons);
