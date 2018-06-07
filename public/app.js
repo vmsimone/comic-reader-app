@@ -50,7 +50,7 @@ function displayComic(arr) {
     for (index in arr) {
         $('main').append(
             `
-            <h3>${arr[index].title.English}</h3>
+            <h3>${arr[index].title}</h3>
             <p>by, ${arr[index].author}</p>
             <p>Published ${arr[index].published}</p>
             <p>${arr[index].pages} pages</p>
@@ -66,7 +66,7 @@ function displayManga(arr) {
     for (index in arr) {
         $('main').append(
             `
-            <h3>${arr[index].title.English}</h3>
+            <h3>${arr[index].title}</h3>
             <h4>${arr[index].title.Japanese}</h4>
             <p>by, ${arr[index].author}</p>
             <p>Published ${arr[index].published}</p>
@@ -83,7 +83,7 @@ function displayGNovel(arr) {
     for (index in arr) {
         $('main').append(
             `
-            <h3>${arr[index].title.English}</h3>
+            <h3>${arr[index].title}</h3>
             <p>by, ${arr[index].author}</p>
             <p>Published ${arr[index].published}</p>
             <p>${arr[index].pages} pages</p>
@@ -103,7 +103,7 @@ function sortData(data) {
 }
 
 function getComics() {
-    console.log('making request');
+    console.log('making GET request');
     $.ajax({
         url: '/api/comics',
         method: 'get',
@@ -111,17 +111,53 @@ function getComics() {
     });
 }
 
-function addComic() {
-  //POST function
-  console.log('add working');
+function addComic(obj) {
+    //POST function
+    console.log('now posting data');
+    console.log(obj);
+    $.ajax({
+        url: '/api/comics',
+        method: 'post',
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(obj),
+        success: getComics
+    });
+}
+
+function readyFormButtons() {
+    console.log('buttons ready');
+    $('.cancel').on('click', () => {
+        loadPage('list')
+    });
+    $('.js-add-comic').submit(event => {
+        event.preventDefault();
+        const thisType = $(event.currentTarget).find('#type').val();
+        const thisTitle = $(event.currentTarget).find('#title').val();
+        const thisAuthor = $(event.currentTarget).find('#author').val();
+        const thisPubDate = $(event.currentTarget).find('#published').val();
+        const thisPages = $(event.currentTarget).find('#pages').val();
+
+        //mess with type later
+        console.log(thisType);
+        const postObject = {
+            "title": {"English": thisTitle},
+            "author": thisAuthor,
+            "published": thisPubDate,
+            "pages": thisPages
+        };
+        addComic(postObject);
+    });
+}
+
+function createComicJSON() {
   $('main').html(`
-    <form action="#" name="add-form" class="js-add">
+    <form action="#" name="add-form" class="js-add-comic">
     <fieldset class="comic-info">
         <label for="type" class="comic-type">What kind of comic?</label>
         <select name="type" id="type" required>
-            <option value="0" selected>Comic</option>
-            <option value="1">Manga</option>
-            <option value="2">Graphic Novel</option>
+            <option value="comic" selected>Comic</option>
+            <option value="manga">Manga</option>
+            <option value="graphic novel">Graphic Novel</option>
         </select>
 
         <legend>Enter your comic's information here:</legend>
@@ -137,12 +173,13 @@ function addComic() {
         <label for="pages">Number of Pages:</label>
         <input type="text" id="pages" required>
         <br>
-        <button type="submit">Add this comic</button>
+        <button type="submit" class="add-new-comic">Add this comic</button>
     </fieldset>
         
     </form>
     <button class="cancel">Back</button>
   `);
+  readyFormButtons();
 }
 
 function deleteComic() {
@@ -158,7 +195,7 @@ function updateComic() {
 function readyComicFunctions() {
     $('.del').on('click', deleteComic);
     $('.put').on('click', updateComic);
-    $('.add').on('click', addComic);
+    $('.add').on('click', createComicJSON);
 }
 
 function loadPage(page) {
@@ -178,14 +215,17 @@ function loadPage(page) {
     case 'stats':
       $('main').html(statsPage);
       break;
+    default:
+      console.log(`${page} is not a valid argument`);
+      break;
   }
 }
 
-function readyButtons() {
-  $('button').on('click', event => {
+function readyNavButtons() {
+  $('nav button').on('click', event => {
     let navButton = event.target.id;
     loadPage(navButton);
   });
 }
 
-$(readyButtons);
+$(readyNavButtons);

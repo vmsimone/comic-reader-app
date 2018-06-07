@@ -34,7 +34,6 @@ app.get('/api/comics', (req, res) => {
 
 app.post('/api/comics', (req, res) => {
   const requiredKeys = ['title', 'author', 'published', 'pages'];
-  console.log(req.body);
   for (let i = 0; i < requiredKeys.length; i++) {
     const key = requiredKeys[i];
     if (!(key in req.body)) {
