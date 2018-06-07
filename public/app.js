@@ -54,6 +54,8 @@ function displayComic(arr) {
             <p>by, ${arr[index].author}</p>
             <p>Published ${arr[index].published}</p>
             <p>${arr[index].pages} pages</p>
+            <button class="put">Update</button>
+            <button class="del">Remove from list</button>
             `
         );
     }
@@ -69,6 +71,8 @@ function displayManga(arr) {
             <p>by, ${arr[index].author}</p>
             <p>Published ${arr[index].published}</p>
             <p>${arr[index].pages} pages</p>
+            <button class="put">Update</button>
+            <button class="del">Remove from list</button>
             `
         );
     }
@@ -83,33 +87,84 @@ function displayGNovel(arr) {
             <p>by, ${arr[index].author}</p>
             <p>Published ${arr[index].published}</p>
             <p>${arr[index].pages} pages</p>
+            <button class="put">Update</button>
+            <button class="del">Remove from list</button>
             `
         );
     }
 }
 
 function sortData(data) {
+    console.log(data);
     displayComic(data.comics);
     displayManga(data.manga);
     displayGNovel(data.graphicNovels);
+    readyComicFunctions();
+}
+
+function getComics() {
+    console.log('making request');
+    $.ajax({
+        url: '/api/comics',
+        method: 'get',
+        success: sortData
+    });
 }
 
 function addComic() {
   //POST function
+  console.log('add working');
+  $('main').html(`
+    <form action="#" name="add-form" class="js-add">
+    <fieldset class="comic-info">
+        <label for="type" class="comic-type">What kind of comic?</label>
+        <select name="type" id="type" required>
+            <option value="0" selected>Comic</option>
+            <option value="1">Manga</option>
+            <option value="2">Graphic Novel</option>
+        </select>
+
+        <legend>Enter your comic's information here:</legend>
+        <label for="title">Title:</label>
+        <input type="text" id="title" required>
+        <br>
+        <label for="author">Author:</label>
+        <input type="text" id="author" required>
+        <br>
+        <label for="published">Date Published:</label>
+        <input type="text" id="published" required>
+        <br>
+        <label for="pages">Number of Pages:</label>
+        <input type="text" id="pages" required>
+        <br>
+        <button type="submit">Add this comic</button>
+    </fieldset>
+        
+    </form>
+    <button class="cancel">Back</button>
+  `);
 }
 
 function deleteComic() {
   //DELETE
+  console.log('del working');
 }
 
 function updateComic() {
   //PUT
+  console.log('update working')
+}
+
+function readyComicFunctions() {
+    $('.del').on('click', deleteComic);
+    $('.put').on('click', updateComic);
+    $('.add').on('click', addComic);
 }
 
 function loadPage(page) {
   const homePage = '<p>Click "My List" to view your comics or "Stats" to see your statistics</p>';
   const statsPage = '<p>Page Under Construction</p>';
-  const listPage = '<button class="add-comic">Add comic</button>';
+  const listPage = '<button class="add">Add comic</button>';
   const comicDetailsPage = '<p>Testing</p>'; //this will need to be a GET with a filter
 
   switch(page) {
@@ -118,7 +173,7 @@ function loadPage(page) {
       break;
     case 'list':
       $('main').html(listPage);
-      sortData(TEST_DATA);
+      getComics();
       break;
     case 'stats':
       $('main').html(statsPage);
