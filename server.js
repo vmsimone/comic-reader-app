@@ -32,6 +32,17 @@ app.get('/api/comics', (req, res) => {
     });
 });
 
+//get by id
+// app.get('/api/comics/:id', (req, res) => {
+//   Comic
+//     .findById(req.params.id)
+//     .then(comic => res.json(comic.serialize()))
+//     .catch(err => {
+//       console.error(err);
+//       res.status(500).json({ error: 'get by ID not functioning properly' });
+//     })
+// });
+
 app.post('/api/comics', (req, res) => {
   const requiredKeys = ['title', 'author', 'published', 'pages'];
   for (let i = 0; i < requiredKeys.length; i++) {
@@ -49,7 +60,7 @@ app.post('/api/comics', (req, res) => {
     published: req.body.published,
     pages: req.body.pages,
     pagesRead: "0",
-    rating: "None",
+    rating: "--",
     isFavorite: false
   })
   .then(Comic => res.status(201).json(Comic.serialize()))

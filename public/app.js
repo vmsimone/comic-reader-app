@@ -48,14 +48,19 @@ const TEST_DATA = {
 function displayComic(arr) {
     $('main').append('<h2>Comics</h2>');
     for (index in arr) {
+        let thisComic = arr[index];
+        let thisID = `c${index}`;
         $('main').append(
             `
-            <h3>${arr[index].title}</h3>
-            <p>by, ${arr[index].author}</p>
-            <p>Published ${arr[index].published}</p>
-            <p>${arr[index].pages} pages</p>
-            <button class="put">Update</button>
-            <button class="del">Remove from list</button>
+            <div class="comic" id="${thisID}">
+                <h3>${thisComic.title}</h3>
+                <p>by, ${thisComic.author}</p>
+                <p>Published ${thisComic.published}</p>
+                <p>Read ${thisComic.pagesRead}/${thisComic.pages} pages</p>
+                <p class="rating">Rating: ${thisComic.rating}</p>
+                <button class="put">Update</button>
+                <button class="del">Remove from list</button>
+            </div>
             `
         );
     }
@@ -64,15 +69,20 @@ function displayComic(arr) {
 function displayManga(arr) {
     $('main').append('<h2>Manga</h2>');
     for (index in arr) {
+        let thisManga = arr[index];
+        let thisID = `m${index}`;
         $('main').append(
             `
-            <h3>${arr[index].title}</h3>
-            <h4>${arr[index].title.Japanese}</h4>
-            <p>by, ${arr[index].author}</p>
-            <p>Published ${arr[index].published}</p>
-            <p>${arr[index].pages} pages</p>
-            <button class="put">Update</button>
-            <button class="del">Remove from list</button>
+            <div class="manga" id="${thisID}">
+                <h3>${thisManga.title}</h3>
+                <h4>${thisManga.title.Japanese}</h4>
+                <p>by, ${thisManga.author}</p>
+                <p>Published ${thisManga.published}</p>
+                <p>${thisManga.pagesRead}/${thisManga.pages} pages</p>
+                <p class="rating">Rating: ${thisManga.rating}</p>
+                <button class="put">Update</button>
+                <button class="del">Remove from list</button>
+            </div>
             `
         );
     }
@@ -81,17 +91,36 @@ function displayManga(arr) {
 function displayGNovel(arr) {
     $('main').append('<h2>Graphic Novels</h2>');
     for (index in arr) {
+        let thisNovel = arr[index];
+        let thisID = `n${index}`;
         $('main').append(
             `
-            <h3>${arr[index].title}</h3>
-            <p>by, ${arr[index].author}</p>
-            <p>Published ${arr[index].published}</p>
-            <p>${arr[index].pages} pages</p>
-            <button class="put">Update</button>
-            <button class="del">Remove from list</button>
+            <div class="novel" id=${thisID}>
+                <h3>${thisNovel.title}</h3>
+                <p>by, ${thisNovel.author}</p>
+                <p>Published ${thisNovel.published}</p>
+                <p>${thisNovel.pagesRead}/${thisNovel.pages} pages</p>
+                <p class="rating">Rating: ${thisNovel.rating}</p>
+                <button class="put">Update</button>
+                <button class="del">Remove from list</button>
+            </div>
             `
         );
     }
+}
+
+function readyComicFunctions() {
+    $('.add').on('click', createComicJSON);
+    $('.del').on('click', deleteComic);
+    $('.put').on('click', (event) => {
+        console.log('put button clicked');
+        let thisComicID = $(event.currentTarget).parent().attr('id');
+        let pSelector = `#${thisComicID} .rating`;
+        console.log(thisComicID);
+        console.log(pSelector);
+        $(pSelector).html('Is this working?');
+        //YES
+    });
 }
 
 function sortData(data) {
@@ -120,14 +149,14 @@ function addComic(obj) {
         method: 'post',
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify(obj),
-        success: getComics
+        success: loadPage('list')
     });
 }
 
 function readyFormButtons() {
     console.log('buttons ready');
     $('.cancel').on('click', () => {
-        loadPage('list')
+        loadPage('list');
     });
     $('.js-add-comic').submit(event => {
         event.preventDefault();
@@ -146,6 +175,13 @@ function readyFormButtons() {
             "pages": thisPages
         };
         addComic(postObject);
+    });
+    $('.js-update-comic').submit(event => {
+        event.preventDefault();
+        const newRating = $(event.currentTarget).find('#rating').val();
+        const newPagesRead = $(event.currentTarget).find('#pages-read').val();
+        console.log(newRating);
+        console.log(newPagesRead);
     });
 }
 
@@ -189,13 +225,8 @@ function deleteComic() {
 
 function updateComic() {
   //PUT
-  console.log('update working')
-}
 
-function readyComicFunctions() {
-    $('.del').on('click', deleteComic);
-    $('.put').on('click', updateComic);
-    $('.add').on('click', createComicJSON);
+  console.log('update working')
 }
 
 function loadPage(page) {
