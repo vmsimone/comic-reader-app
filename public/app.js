@@ -52,14 +52,16 @@ function displayComic(arr) {
         let thisID = `c${index}`;
         $('main').append(
             `
-            <div class="comic" id="${thisID}">
+            <div class="comic" id=${thisID}>
                 <h3>${thisComic.title}</h3>
                 <p>by, ${thisComic.author}</p>
                 <p>Published ${thisComic.published}</p>
-                <p>Read ${thisComic.pagesRead}/${thisComic.pages} pages</p>
-                <p class="rating">Rating: ${thisComic.rating}</p>
-                <button class="put">Update</button>
-                <button class="del">Remove from list</button>
+                <div class="updateable">
+                    <p>${thisComic.pagesRead}/<span class="total-pages">${thisComic.pages}</span> pages</p>
+                    <p class="rating">Rating: ${thisComic.rating}</p>
+                    <button class="put">Update</button>
+                    <button class="del">Remove from list</button>
+                </div>
             </div>
             `
         );
@@ -73,15 +75,16 @@ function displayManga(arr) {
         let thisID = `m${index}`;
         $('main').append(
             `
-            <div class="manga" id="${thisID}">
+            <div class="manga" id=${thisID}>
                 <h3>${thisManga.title}</h3>
-                <h4>${thisManga.title.Japanese}</h4>
                 <p>by, ${thisManga.author}</p>
                 <p>Published ${thisManga.published}</p>
-                <p>${thisManga.pagesRead}/${thisManga.pages} pages</p>
-                <p class="rating">Rating: ${thisManga.rating}</p>
-                <button class="put">Update</button>
-                <button class="del">Remove from list</button>
+                <div class="updateable">
+                    <p>${thisManga.pagesRead}/<span class="total-pages">${thisManga.pages}</span> pages</p>
+                    <p class="rating">Rating: ${thisManga.rating}</p>
+                    <button class="put">Update</button>
+                    <button class="del">Remove from list</button>
+                </div>
             </div>
             `
         );
@@ -99,27 +102,68 @@ function displayGNovel(arr) {
                 <h3>${thisNovel.title}</h3>
                 <p>by, ${thisNovel.author}</p>
                 <p>Published ${thisNovel.published}</p>
-                <p>${thisNovel.pagesRead}/${thisNovel.pages} pages</p>
-                <p class="rating">Rating: ${thisNovel.rating}</p>
-                <button class="put">Update</button>
-                <button class="del">Remove from list</button>
+                <div class="updateable">
+                    <p>${thisNovel.pagesRead}/<span class="total-pages">${thisNovel.pages}</span> pages</p>
+                    <p class="rating">Rating: ${thisNovel.rating}</p>
+                    <button class="put">Update</button>
+                    <button class="del">Remove from list</button>
+                </div>
             </div>
             `
         );
     }
 }
 
+function updateComic(title) {
+    //PUT
+    console.log('update working');
+    $('.save').on('click', (event) => {
+        //update the item on the database and reload page
+        console.log(title);
+        $.ajax({
+            url: `/api/comics/${title}`,
+            method: 'get',
+            success: console.log('update has completed')
+        });
+    });
+    $('.cancel').on('click', () => {
+      loadPage('list');
+    });
+  }
+
 function readyComicFunctions() {
     $('.add').on('click', createComicJSON);
     $('.del').on('click', deleteComic);
     $('.put').on('click', (event) => {
-        console.log('put button clicked');
-        let thisComicID = $(event.currentTarget).parent().attr('id');
-        let pSelector = `#${thisComicID} .rating`;
-        console.log(thisComicID);
-        console.log(pSelector);
-        $(pSelector).html('Is this working?');
-        //YES
+        let thisComic = $(event.currentTarget).parent().parent();
+
+        let thisComicTitle = $(`${thisComic.html()} h3`).html();
+        let thisComicID = $(thisComic).attr('id');
+        let updateableSelector = `#${thisComicID} .updateable`;
+
+        let spanSelector = `#${thisComicID} .total-pages`;
+        let totalPages = $(spanSelector).html();
+
+        $(updateableSelector).html(`
+            <form action="#" name="update-form" class="js-update-comic">
+                <label for="pages-read">Read</label>
+                <input type="text" id="pages-read">
+                /<span class="total-pages">${totalPages}</span>
+                <br><br>
+                <label for="new-rating">Rating: </label>
+                <select name="new-rating" id="rating">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <br><br>
+            </form>
+            <button class="save">Save</button>
+            <button class="cancel">Cancel</button>
+        `);
+        updateComic(thisComicTitle);
     });
 }
 
@@ -221,12 +265,6 @@ function createComicJSON() {
 function deleteComic() {
   //DELETE
   console.log('del working');
-}
-
-function updateComic() {
-  //PUT
-
-  console.log('update working')
 }
 
 function loadPage(page) {
