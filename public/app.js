@@ -1,58 +1,10 @@
-const TEST_DATA = {
-    "comics": [
-        {
-            "title": {"English": "Batman: The Killing Joke"},
-            "author": "Alan Moore",
-            "published": "December 1st, 1995",
-            "pages": 50
-        }
-    ],
-    "manga": [
-        {
-            "title": {
-                "English": "Future Diary",
-                "Japanese": "未来日記",
-                "Romaji": "Mirai Nikki"
-            },
-            "author": "Sakae Esuno",
-            "published": "January 26, 2006",
-            "pages": 2500
-        },
-        {
-            "title": {
-                "English": "Naruto",
-                "Japanese": "ナルト",
-                "Romaji": "Naruto"
-            },
-            "author": "Masashi Kishimoto",
-            "published": "September 21, 1999",
-            "pages": 16072
-        }
-    ],
-    "graphicNovels": [
-        {
-            "title": {"English": "Scott Pilgrim"},
-            "author": "Bryan Lee O'Malley",
-            "published": "August 18, 2004",
-            "pages": 1000
-        },
-        {
-            "title": {"English": "Lost at Sea"},
-            "author": "Bryan Lee O'Malley",
-            "published": "November, 2003",
-            "pages": 168
-        }
-    ]
-}
-
 function displayComic(arr) {
     $('main').append('<h2>Comics</h2>');
     for (index in arr) {
         let thisComic = arr[index];
-        let thisID = `c${index}`;
         $('main').append(
             `
-            <div class="comic" id=${thisID}>
+            <div class="comic" id=${thisComic.id}>
                 <h3>${thisComic.title}</h3>
                 <p>by, ${thisComic.author}</p>
                 <p>Published ${thisComic.published}</p>
@@ -72,10 +24,9 @@ function displayManga(arr) {
     $('main').append('<h2>Manga</h2>');
     for (index in arr) {
         let thisManga = arr[index];
-        let thisID = `m${index}`;
         $('main').append(
             `
-            <div class="manga" id=${thisID}>
+            <div class="manga" id=${thisManga.id}>
                 <h3>${thisManga.title}</h3>
                 <p>by, ${thisManga.author}</p>
                 <p>Published ${thisManga.published}</p>
@@ -95,10 +46,9 @@ function displayGNovel(arr) {
     $('main').append('<h2>Graphic Novels</h2>');
     for (index in arr) {
         let thisNovel = arr[index];
-        let thisID = `n${index}`;
         $('main').append(
             `
-            <div class="novel" id=${thisID}>
+            <div class="novel" id=${thisNovel.id}>
                 <h3>${thisNovel.title}</h3>
                 <p>by, ${thisNovel.author}</p>
                 <p>Published ${thisNovel.published}</p>
@@ -114,56 +64,75 @@ function displayGNovel(arr) {
     }
 }
 
-function updateComic(title) {
+function updateComic(obj) {
     //PUT
-    console.log('update working');
-    $('.save').on('click', (event) => {
+    $.ajax({
+        url: `/api/comics/${obj.id}`,
+        method: 'put',
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(obj),
+        success: function() {
+            loadPage('list');
+        }
+    });
+}
+
+function readyUpdate(targetID) {
+    $('.js-update-comic').submit(event => {
         //update the item on the database and reload page
-        console.log(title);
-        $.ajax({
-            url: `/api/comics/${title}`,
-            method: 'get',
-            success: console.log('update has completed')
-        });
+        event.preventDefault();
+        //let newPagesRead = $(event.currentTarget).find('pages-read').html();
+        let newPagesRead = $(event.currentTarget).find('#pages-read').val();
+        let newRating = $(event.currentTarget).find('#rating').val();
+        
+        let putObject = {
+            "id": `${targetID}`,
+            "pagesRead": `${newPagesRead}`,
+            "rating": `${newRating}`
+        };
+        updateComic(putObject);
     });
     $('.cancel').on('click', () => {
       loadPage('list');
     });
-  }
+}
+
+function updateComicJSON(targetComic) {
+    let thisComicID = $(targetComic).attr('id');
+    let updateableSelector = `#${thisComicID} .updateable`;
+
+    let spanSelector = `#${thisComicID} .total-pages`;
+    let totalPages = $(spanSelector).html();
+
+    $(updateableSelector).html(`
+        <form action="#" name="update-form" class="js-update-comic">
+            <label for="pages-read">Read</label>
+            <input type="text" id="pages-read">
+            /<span class="total-pages">${totalPages}</span>
+            <br><br>
+            <label for="new-rating">Rating: </label>
+            <select name="new-rating" id="rating">
+                <option value="None">--</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <br><br>
+            <button type="submit" class="save">Save</button>
+        </form>
+        <button class="cancel">Cancel</button>
+    `);
+    readyUpdate(thisComicID);
+}
 
 function readyComicFunctions() {
     $('.add').on('click', createComicJSON);
     $('.del').on('click', deleteComic);
     $('.put').on('click', (event) => {
         let thisComic = $(event.currentTarget).parent().parent();
-
-        let thisComicTitle = $(`${thisComic.html()} h3`).html();
-        let thisComicID = $(thisComic).attr('id');
-        let updateableSelector = `#${thisComicID} .updateable`;
-
-        let spanSelector = `#${thisComicID} .total-pages`;
-        let totalPages = $(spanSelector).html();
-
-        $(updateableSelector).html(`
-            <form action="#" name="update-form" class="js-update-comic">
-                <label for="pages-read">Read</label>
-                <input type="text" id="pages-read">
-                /<span class="total-pages">${totalPages}</span>
-                <br><br>
-                <label for="new-rating">Rating: </label>
-                <select name="new-rating" id="rating">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-                <br><br>
-            </form>
-            <button class="save">Save</button>
-            <button class="cancel">Cancel</button>
-        `);
-        updateComic(thisComicTitle);
+        updateComicJSON(thisComic);
     });
 }
 

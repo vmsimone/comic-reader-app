@@ -32,17 +32,6 @@ app.get('/api/comics', (req, res) => {
     });
 });
 
-//get by comic title
-app.get('/api/comics/:title', (req, res) => {
-  Comic
-    .findOne(req.params.title)
-    .then(comic => res.json(comic.serialize()))
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({ error: 'get by title not functioning properly' });
-    })
-});
-
 app.post('/api/comics', (req, res) => {
   const requiredKeys = ['title', 'author', 'published', 'pages'];
   for (let i = 0; i < requiredKeys.length; i++) {
