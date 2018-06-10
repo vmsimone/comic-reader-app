@@ -66,6 +66,7 @@ function displayGNovel(arr) {
 
 function updateComic(obj) {
     //PUT
+    console.log('making PUT request');
     $.ajax({
         url: `/api/comics/${obj.id}`,
         method: 'put',
@@ -127,9 +128,44 @@ function updateComicJSON(targetComic) {
     readyUpdate(thisComicID);
 }
 
+function deleteComic(id) {
+    //DELETE
+    console.log('making DELETE request');
+    $.ajax({
+        url: `/api/comics/${id}`,
+        method: 'delete',
+        success: function() {
+            loadPage('list');
+        }
+    });
+  }
+
+function confirmDelete(targetComic) {
+    let comicID = $(targetComic).attr('id');
+
+    let sectionSelector = `#${comicID} .updateable`;
+    let buttonSelector = `${sectionSelector} button`;
+
+    $(buttonSelector).remove();
+    $(sectionSelector).append(`
+        <p>Are you sure?</p>
+        <button class="delete">Yes</button>
+        <button class="cancel">No</button>
+    `);
+    $('.delete').on('click', () => {
+        deleteComic(comicID);
+    });
+    $('.cancel').on('click', () => {
+        loadPage('list');
+    });
+}
+
 function readyComicFunctions() {
     $('.add').on('click', createComicJSON);
-    $('.del').on('click', deleteComic);
+    $('.del').on('click', (event) => {
+        let thisComic = $(event.currentTarget).parent().parent();
+        confirmDelete(thisComic);
+    });
     $('.put').on('click', (event) => {
         let thisComic = $(event.currentTarget).parent().parent();
         updateComicJSON(thisComic);
@@ -137,7 +173,6 @@ function readyComicFunctions() {
 }
 
 function sortData(data) {
-    console.log(data);
     displayComic(data.comics);
     displayManga(data.manga);
     displayGNovel(data.graphicNovels);
@@ -155,8 +190,7 @@ function getComics() {
 
 function addComic(obj) {
     //POST function
-    console.log('now posting data');
-    console.log(obj);
+    console.log('making POST request');
     $.ajax({
         url: '/api/comics',
         method: 'post',
@@ -167,7 +201,6 @@ function addComic(obj) {
 }
 
 function readyFormButtons() {
-    console.log('buttons ready');
     $('.cancel').on('click', () => {
         loadPage('list');
     });
@@ -193,8 +226,6 @@ function readyFormButtons() {
         event.preventDefault();
         const newRating = $(event.currentTarget).find('#rating').val();
         const newPagesRead = $(event.currentTarget).find('#pages-read').val();
-        console.log(newRating);
-        console.log(newPagesRead);
     });
 }
 
@@ -229,11 +260,6 @@ function createComicJSON() {
     <button class="cancel">Back</button>
   `);
   readyFormButtons();
-}
-
-function deleteComic() {
-  //DELETE
-  console.log('del working');
 }
 
 function loadPage(page) {
