@@ -10,6 +10,8 @@ const { Comic } = require('./models');
 
 const app = express();
 app.use(express.json());
+app.use(express.static('public'));
+
 
 app.get('/', (req,res) => { 
   res.sendFile(__dirname + '/public/index.html');
@@ -32,7 +34,6 @@ app.get('/api/comics', (req, res) => {
 
 app.post('/api/comics', (req, res) => {
   const requiredKeys = ['title', 'author', 'published', 'pages'];
-  console.log(req.body);
   for (let i = 0; i < requiredKeys.length; i++) {
     const key = requiredKeys[i];
     if (!(key in req.body)) {
@@ -48,7 +49,7 @@ app.post('/api/comics', (req, res) => {
     published: req.body.published,
     pages: req.body.pages,
     pagesRead: "0",
-    rating: "None",
+    rating: "--",
     isFavorite: false
   })
   .then(Comic => res.status(201).json(Comic.serialize()))
