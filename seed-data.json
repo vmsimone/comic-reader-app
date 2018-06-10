@@ -1,4 +1,4 @@
-const TEST_DATA = {
+{
     "comics": [
         {
             "title": {"English": "Batman: The Killing Joke"},
