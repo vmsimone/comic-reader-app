@@ -174,8 +174,8 @@ function readyComicFunctions() {
 
 function sortData(data) {
     displayComic(data.comics);
-    displayManga(data.manga);
-    displayGNovel(data.graphicNovels);
+    //displayManga(data.manga);
+    //displayGNovel(data.graphicNovels);
     readyComicFunctions();
 }
 
@@ -229,14 +229,14 @@ function readyFormButtons() {
     });
     $('.js-add-comic').submit(event => {
         event.preventDefault();
-        const thisType = $(event.currentTarget).find('#type').val();
+        //const thisType = $(event.currentTarget).find('#type').val();
         const thisTitle = $(event.currentTarget).find('#title').val();
         const thisAuthor = $(event.currentTarget).find('#author').val();
         const thisPubDate = $(event.currentTarget).find('#published').val();
         const thisPages = $(event.currentTarget).find('#pages').val();
 
         //mess with type later
-        console.log(thisType);
+        //console.log(thisType);
         const postObject = {
             "title": {"English": thisTitle},
             "author": thisAuthor,
@@ -257,11 +257,11 @@ function createComicJSON() {
     <form action="#" name="add-form" class="js-add-comic">
     <fieldset class="comic-info">
         <label for="type" class="comic-type">What kind of comic?</label>
-        <select name="type" id="type" required>
+        <!-- <select name="type" id="type" required>
             <option value="comic" selected>Comic</option>
             <option value="manga">Manga</option>
             <option value="graphic novel">Graphic Novel</option>
-        </select>
+        </select> -->
 
         <legend>Enter your comic's information here:</legend>
         <label for="title">Title:</label>
