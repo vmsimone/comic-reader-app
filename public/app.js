@@ -196,7 +196,9 @@ function addComic(obj) {
         method: 'post',
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify(obj),
-        success: loadPage('list')
+        success: function() {
+            loadPage('list');
+        }
     });
 }
 

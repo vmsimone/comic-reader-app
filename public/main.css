@@ -1,0 +1,9 @@
+body {
+    text-align: center;
+}
+
+nav {
+    border-bottom: solid black 2px;
+    margin: 10px;
+    padding: 10px;
+}
