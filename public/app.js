@@ -188,6 +188,27 @@ function getComics() {
     });
 }
 
+function displayStats(data) {
+    let dataArr = data.comics;
+    let totalPagesRead = 0;
+    for (index in dataArr) {
+        let pagesRead = parseInt(dataArr[index].pagesRead);
+        totalPagesRead += pagesRead;
+    }
+    $('main').append(`
+        <p>You've read <b>${totalPagesRead}</b> pages of comics!</p>
+    `);
+}
+
+function getStats() {
+    console.log('making GET request');
+    $.ajax({
+        url: '/api/comics',
+        method: 'get',
+        success: displayStats
+    });
+}
+
 function addComic(obj) {
     //POST function
     console.log('making POST request');
@@ -266,7 +287,7 @@ function createComicJSON() {
 
 function loadPage(page) {
   const homePage = '<p>Click "My List" to view your comics or "Stats" to see your statistics</p>';
-  const statsPage = '<p>Page Under Construction</p>';
+  const statsPage = '<h2>Your stats:</h2>';
   const listPage = '<button class="add">Add comic</button>';
   const comicDetailsPage = '<p>Testing</p>'; //this will need to be a GET with a filter
 
@@ -280,6 +301,7 @@ function loadPage(page) {
       break;
     case 'stats':
       $('main').html(statsPage);
+      getStats();
       break;
     default:
       console.log(`${page} is not a valid argument`);
