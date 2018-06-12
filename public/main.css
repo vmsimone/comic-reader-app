@@ -1,10 +1,54 @@
 body {
     text-align: center;
+    font-family: 'Bangers';
+    font-size: 32px;
+    margin: 0;
+    margin-top: 10px;
 }
 
 nav {
+    left: 0;
+    width: 100%;
     border-bottom: solid black 2px;
-    margin: 10px;
+    background: rgb(29, 208, 253);
     padding: 10px;
 }
 
+button {
+    background: none;
+    border: none;
+    outline:none;
+    text-shadow:
+		-1px -1px 0 #000,
+		2px -2px 0 #000,
+		-2px 2px 0 #000,
+		2px 2px 0 #000;
+    color: yellow;
+    font-family: 'Bangers';
+    font-size: 24px;
+    margin: 10px;
+}
+
+button:hover,
+button:focus {
+    color: red;
+    cursor: pointer;
+}
+
+main {
+    display: inline-block;
+    margin: 0;
+}
+
+.comic {
+    background: red;
+    font-size: 18px;
+    border: black 2px solid;
+    border-radius: 10px;
+    padding: 5px;
+    margin-bottom: 15px;
+}
+
+.comic h3 {
+    font-size: 24px;
+}
