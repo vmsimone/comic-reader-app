@@ -265,16 +265,16 @@ function createComicJSON() {
 
         <legend>Enter your comic's information here:</legend>
         <label for="title">Title:</label>
-        <input type="text" id="title" required>
+        <input type="text" id="title" maxlength="50" required>
         <br>
         <label for="author">Author:</label>
-        <input type="text" id="author" required>
+        <input type="text" id="author" maxlength="30" required>
         <br>
         <label for="published">Date Published:</label>
-        <input type="text" id="published" required>
+        <input type="date" id="published" max="2018-" required>
         <br>
         <label for="pages">Number of Pages:</label>
-        <input type="text" id="pages" required>
+        <input type="number" id="pages" required>
         <br>
         <button type="submit" class="add-new-comic">Add this comic</button>
     </fieldset>
