@@ -108,7 +108,7 @@ function updateComicJSON(targetComic) {
     $(updateableSelector).html(`
         <form action="#" name="update-form" class="js-update-comic">
             <label for="pages-read">Read</label>
-            <input type="text" id="pages-read">
+            <input type="number" id="pages-read">
             /<span class="total-pages">${totalPages}</span>
             <br><br>
             <label for="new-rating">Rating: </label>
