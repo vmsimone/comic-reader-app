@@ -8,23 +8,23 @@ A simple app for tracking the comics you read, seeing how many pages of comics y
 
 The user can view a list of comics they're reading:
 
-![Screenshot of main UI](https://github.com/vmsimone/PicTranslate/blob/master/screenshots/comic-list.png "Main user interface")
+![Screenshot of main UI](https://github.com/vmsimone/comic-reader-app/blob/master/screenshots/comic-list.PNG "Main user interface")
 
 They can add a new comic to the list...
 
-![Screenshot of add form](https://github.com/vmsimone/PicTranslate/blob/master/screenshots/add-comic.png "Add new comic form")
+![Screenshot of add form](https://github.com/vmsimone/comic-reader-app/blob/master/screenshots/add-comic.PNG "Add new comic form")
 
 ...update a comic already on their list with a new rating or change the number of pages they've read...
 
-![Screenshot of update form](https://github.com/vmsimone/PicTranslate/blob/master/screenshots/update-comic.png "Update existing comic form")
+![Screenshot of update form](https://github.com/vmsimone/comic-reader-app/blob/master/screenshots/update-comic.PNG "Update existing comic form")
 
 ...or remove an existing comic
 
-![Screenshot of removal form](https://github.com/vmsimone/PicTranslate/blob/master/screenshots/remove-comic.png "Remove existing comic")
+![Screenshot of removal form](https://github.com/vmsimone/comic-reader-app/blob/master/screenshots/remove-comic.PNG "Remove existing comic")
 
 They also have the option of viewing how many total pages of comics they've read:
 
-![Screenshot of stats page](https://github.com/vmsimone/PicTranslate/blob/master/screenshots/comic-stats.png "Stats page")
+![Screenshot of stats page](https://github.com/vmsimone/comic-reader-app/blob/master/screenshots/comic-stats.PNG "Stats page")
 
 # Built With
 * HTML
