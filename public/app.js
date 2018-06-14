@@ -20,6 +20,8 @@ function displayComic(arr) {
     }
 }
 
+//currently, manga and graphic novels are not included within the app
+
 function displayManga(arr) {
     $('main').append('<h2>Manga</h2>');
     for (index in arr) {
@@ -66,7 +68,6 @@ function displayGNovel(arr) {
 
 function updateComic(obj) {
     //PUT
-    console.log('making PUT request');
     $.ajax({
         url: `/api/comics/${obj.id}`,
         method: 'put',
@@ -82,7 +83,6 @@ function readyUpdate(targetID) {
     $('.js-update-comic').submit(event => {
         //update the item on the database and reload page
         event.preventDefault();
-        //let newPagesRead = $(event.currentTarget).find('pages-read').html();
         let newPagesRead = $(event.currentTarget).find('#pages-read').val();
         let newRating = $(event.currentTarget).find('#rating').val();
         
@@ -130,7 +130,6 @@ function updateComicJSON(targetComic) {
 
 function deleteComic(id) {
     //DELETE
-    console.log('making DELETE request');
     $.ajax({
         url: `/api/comics/${id}`,
         method: 'delete',
@@ -160,6 +159,7 @@ function confirmDelete(targetComic) {
     });
 }
 
+//listeners for each of the main CRUD function's buttons
 function readyComicFunctions() {
     $('.add').on('click', createComicJSON);
     $('.del').on('click', (event) => {
@@ -172,6 +172,7 @@ function readyComicFunctions() {
     });
 }
 
+//adds all of the comic elements
 function sortData(data) {
     displayComic(data.comics);
     //displayManga(data.manga);
@@ -180,7 +181,6 @@ function sortData(data) {
 }
 
 function getComics() {
-    console.log('making GET request');
     $.ajax({
         url: '/api/comics',
         method: 'get',
@@ -188,6 +188,7 @@ function getComics() {
     });
 }
 
+//very basic, but more stats could be added later
 function displayStats(data) {
     let dataArr = data.comics;
     let totalPagesRead = 0;
@@ -201,7 +202,6 @@ function displayStats(data) {
 }
 
 function getStats() {
-    console.log('making GET request');
     $.ajax({
         url: '/api/comics',
         method: 'get',
@@ -210,8 +210,7 @@ function getStats() {
 }
 
 function addComic(obj) {
-    //POST function
-    console.log('making POST request');
+    //POST
     $.ajax({
         url: '/api/comics',
         method: 'post',
@@ -223,20 +222,20 @@ function addComic(obj) {
     });
 }
 
+//listener for ALL forms, including PUT and POST
 function readyFormButtons() {
     $('.cancel').on('click', () => {
         loadPage('list');
     });
     $('.js-add-comic').submit(event => {
         event.preventDefault();
+        //type not currently relevant, as manga and graphic novels are not distinct
         //const thisType = $(event.currentTarget).find('#type').val();
         const thisTitle = $(event.currentTarget).find('#title').val();
         const thisAuthor = $(event.currentTarget).find('#author').val();
         const thisPubDate = $(event.currentTarget).find('#published').val();
         const thisPages = $(event.currentTarget).find('#pages').val();
 
-        //mess with type later
-        //console.log(thisType);
         const postObject = {
             "title": {"English": thisTitle},
             "author": thisAuthor,
@@ -252,6 +251,7 @@ function readyFormButtons() {
     });
 }
 
+//user-end forms; the JSON object is created in the listener above
 function createComicJSON() {
   $('main').html(`
     <form action="#" name="add-form" class="js-add-comic">
@@ -289,7 +289,6 @@ function loadPage(page) {
   const homePage = '<p>Click "My List" to view your comics or "Stats" to see your statistics</p>';
   const statsPage = '<h2>Your stats:</h2>';
   const listPage = '<button class="add">Add comic</button>';
-  const comicDetailsPage = '<p>Testing</p>'; //this will need to be a GET with a filter
 
   switch(page) {
     case 'home':
