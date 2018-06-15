@@ -40,6 +40,7 @@ comicSchema.methods.serialize = function() {
       published: this.published,
       pages: this.pages,
       pagesRead: this.pagesRead,
+      rating: this.rating,
       owner: this.owner,
       isFavorite: this.isFavorite
     };
