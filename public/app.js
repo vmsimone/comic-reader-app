@@ -8,6 +8,7 @@ function displayComic(arr) {
                 <h3>${thisComic.title}</h3>
                 <p>by, ${thisComic.author}</p>
                 <p>Published ${thisComic.published}</p>
+                <p>Entered by: ${thisComic.owner}</p>
                 <div class="updateable">
                     <p>${thisComic.pagesRead}/<span class="total-pages">${thisComic.pages}</span> pages</p>
                     <p class="rating">Rating: ${thisComic.rating}</p>
@@ -235,12 +236,14 @@ function readyFormButtons() {
         const thisAuthor = $(event.currentTarget).find('#author').val();
         const thisPubDate = $(event.currentTarget).find('#published').val();
         const thisPages = $(event.currentTarget).find('#pages').val();
+        const thisOwner = $(event.currentTarget).find('#owner').val();
 
         const postObject = {
             "title": {"English": thisTitle},
             "author": thisAuthor,
             "published": thisPubDate,
-            "pages": thisPages
+            "pages": thisPages,
+            "owner": thisOwner
         };
         addComic(postObject);
     });
@@ -275,6 +278,9 @@ function createComicJSON() {
         <br>
         <label for="pages">Number of Pages:</label>
         <input type="number" id="pages" required>
+        <br>
+        <label for="owner">Your name:</label>
+        <input type="text" id="owner" required>
         <br>
         <button type="submit" class="add-new-comic">Add this comic</button>
     </fieldset>

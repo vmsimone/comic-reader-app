@@ -59,7 +59,8 @@ function generateTestData() {
     title: generateTitle(),
     author: generateAuthor(),
     published: generatePublishedDate(),
-    pages: generatePageNum()
+    pages: generatePageNum(),
+    owner: "Tester"
   }
 }
 
@@ -141,7 +142,7 @@ describe('Comics resource', function() {
           expect(res).to.be.json;
           expect(res.body).to.be.a('object');
           expect(res.body).to.include.keys(
-            'id', 'title', 'author', 'published', 'pages'
+            'id', 'title', 'author', 'published', 'pages', 'owner'
           );
           expect(res.body.id).to.not.be.null;
           expect(res.body.title).to.equal(newComic.title.English);

@@ -4,11 +4,16 @@ body {
     font-size: 32px;
     margin: 0;
     margin-top: 10px;
+    background-image: url('https://lh6.googleusercontent.com/--HWs4-eXciI/TXU-Jh1OYhI/AAAAAAAADDk/kRID-DcOud4/s1600/Scott+Pilgrim.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position-x: 30%;
+    background-position-y: 70%;
 }
 
 nav {
-    left: 0;
-    width: 100%;
+    margin: 0;
+    width: 98.9%;
     border-bottom: solid black 2px;
     background: rgb(29, 208, 253);
     padding: 10px;
@@ -42,6 +47,12 @@ main {
 
 .comic {
     background: red;
+    text-shadow:
+		-1px -1px 0 #000,
+		2px -2px 0 #000,
+		-2px 2px 0 #000,
+		2px 2px 0 #000;
+    color: white;
     font-size: 18px;
     border: black 2px solid;
     border-radius: 10px;

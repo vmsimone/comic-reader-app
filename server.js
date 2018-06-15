@@ -33,7 +33,7 @@ app.get('/api/comics', (req, res) => {
 });
 
 app.post('/api/comics', (req, res) => {
-  const requiredKeys = ['title', 'author', 'published', 'pages'];
+  const requiredKeys = ['title', 'author', 'published', 'pages', 'owner'];
   for (let i = 0; i < requiredKeys.length; i++) {
     const key = requiredKeys[i];
     if (!(key in req.body)) {
@@ -50,6 +50,7 @@ app.post('/api/comics', (req, res) => {
     pages: req.body.pages,
     pagesRead: "0",
     rating: "--",
+    owner: req.body.owner,
     isFavorite: false
   })
   .then(Comic => res.status(201).json(Comic.serialize()))

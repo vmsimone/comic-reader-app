@@ -13,6 +13,7 @@ const comicSchema = mongoose.Schema({
   "pages": {type: String, required: true},
   "pagesRead": String,
   "rating": String,
+  "owner": {type: String, required: true},
   //placeholder for possible future feature
   "isFavorite": Boolean
 });
@@ -28,7 +29,8 @@ comicSchema.methods.serialize = function() {
       title: this.engTitle,
       author: this.author,
       published: this.published,
-      pages: this.pages
+      pages: this.pages,
+      owner: this.owner
     };
   } else {
     return {
@@ -38,7 +40,7 @@ comicSchema.methods.serialize = function() {
       published: this.published,
       pages: this.pages,
       pagesRead: this.pagesRead,
-      rating: this.rating,
+      owner: this.owner,
       isFavorite: this.isFavorite
     };
   }
