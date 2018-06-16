@@ -4,11 +4,6 @@ body {
     font-size: 32px;
     margin: 0;
     margin-top: 10px;
-    background-image: url('https://lh6.googleusercontent.com/--HWs4-eXciI/TXU-Jh1OYhI/AAAAAAAADDk/kRID-DcOud4/s1600/Scott+Pilgrim.png');
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position-x: 30%;
-    background-position-y: 70%;
 }
 
 nav {
@@ -66,4 +61,14 @@ main {
 
 .js-add-comic {
     background: white;
+}
+
+@media only screen and (min-width: 640px) {
+    body {
+        background-image: url('https://lh6.googleusercontent.com/--HWs4-eXciI/TXU-Jh1OYhI/AAAAAAAADDk/kRID-DcOud4/s1600/Scott+Pilgrim.png');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position-x: 30%;
+        background-position-y: 70%;
+    }
 }
